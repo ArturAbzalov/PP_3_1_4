@@ -1,23 +1,25 @@
-package com.example.pp_3_3_1.controller;
+package com.example.pp_3_1_2.controller;
 
-import com.example.pp_3_3_1.model.User;
-import com.example.pp_3_3_1.service.UserService;
+import com.example.pp_3_1_2.model.User;
+import com.example.pp_3_1_2.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.List;
 
 @Controller
-public class UserController {
+@RequestMapping("/admin")
+public class AdminController {
 
     private final UserService userService;
 
     @Autowired
-    public UserController(UserService userService) {
+    public AdminController(UserService userService) {
         this.userService = userService;
     }
 
@@ -36,13 +38,13 @@ public class UserController {
     @PostMapping("/userCreate")
     public String createUser(User user) {
         userService.saveUser(user);
-        return "redirect:/users";
+        return "redirect:/admin/users";
     }
 
     @GetMapping("/user-delete/{id}")
     public String deleteUser(@PathVariable("id")Long id) {
         userService.deleteById(id);
-        return "redirect:/users";
+        return "redirect:/admin/users";
     }
     @GetMapping("/user-update/{id}")
     public String updateUserForm(@PathVariable("id")Long id, Model model) {
@@ -53,7 +55,10 @@ public class UserController {
 
     @PostMapping("/user-update")
     public String updateUser(User user) {
-        userService.saveUser(user);
-        return "redirect:/users";
+        User user1 = userService.findById(user.getId());
+        user1.setUsername(user.getUsername());
+        user1.setFirst_name(user.getFirst_name());
+        userService.saveUser(user1);
+        return "redirect:/admin/users";
     }
 }

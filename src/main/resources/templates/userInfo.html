@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml" xmlns="http://www.w3.org/1999/html">
 <head>
     <meta charset="UTF-8">
-    <title>Users</title>
+    <title>User info</title>
 </head>
 <body>
-<div th:switch="${users}">
+<div th:switch="${user}">
     <h2 th:case="null">No users found!</h2>
     <div th:case="*">
         <h2>Users</h2>
@@ -18,27 +18,13 @@
             </tr>
             </thead>
             <tbody>
-            <tr th:each="user : ${users}">
                 <td th:text="${user.getId()}"></td>
                 <td th:text="${user.getUsername()}"></td>
                 <td th:text="${user.getFirst_name()}"></td>
-                <td>
-                    <form th:action="@{/admin/user-update/{id}(id=${user.id})}" method="get">
-                        <input type="submit" value="Edit">
-                    </form>
-                </td>
-                <td>
-                    <form th:action="@{/admin/user-delete/{id}(id=${user.id})}" method="get">
-                        <input type="submit" value="Delete">
-                    </form>
-                </td>
             </tr>
             </tbody>
         </table>
     </div>
-    <form th:action="@{/admin/user-create}" method="get">
-        <input type="submit" value="CREATE USER">
-    </form>
 </div>
 </br></br>
 <form th:action="@{/logout}" method="post">
