@@ -25,9 +25,10 @@ public class User implements UserDetails {
         return first_name;
     }
 
-    public User(String username, String first_name) {
+    public User(String username, String first_name, String password) {
         this.username = username;
         this.first_name = first_name;
+        this.password = password;
     }
 
     public void setFirst_name(String first_name) {
