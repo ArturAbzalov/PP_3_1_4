@@ -3,6 +3,8 @@ package com.example.pp_3_1_2.model;
 import org.springframework.security.core.GrantedAuthority;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "roles")
@@ -16,6 +18,13 @@ public class Role implements GrantedAuthority {
         this.id = id;
         this.name = name;
     }
+
+    public void setUsers(List<User> users) {
+        this.users = users;
+    }
+
+    @ManyToMany(mappedBy="roles")
+    List<User> users = new ArrayList<User>();
 
     @Column(name = "name")
     private String name;
@@ -47,5 +56,10 @@ public class Role implements GrantedAuthority {
     @Override
     public String getAuthority() {
         return getName();
+    }
+
+    @Override
+    public String toString() {
+        return name.substring(5);
     }
 }

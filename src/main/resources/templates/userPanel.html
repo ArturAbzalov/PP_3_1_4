@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <title>User info</title>
+    <link th:rel="stylesheet" th:href="@{/webjars/bootstrap/4.0.0-2/css/bootstrap.min.css} "/>
+    <style>
+        .sidebar {
+            height: 100vh;
+        }
+    </style>
+</head>
+<body>
+<header>
+    <nav class="navbar navbar-light bg-dark text-white ">
+        <a class="navbar-brand" th:text="${user.getEmail()}+' with roles: '+ ${user.getRoles()}"></a>
+        <form type="hidden" th:action="@{/logout}" method="post">
+            <input class="bg-dark text-light border-0" type="submit" value="Logout"/>
+        </form>
+
+    </nav>
+</header>
+<div class="mainContainer">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-2 pl-0 pr-0 ">
+                <ul class="nav nav-pills nav-justified mt-3">
+                    <li class="nav-item">
+                        <a class="nav-link active text-left " href="#!">USER</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="col-md-10 bg-light border sidebar">
+                <div class="container-fluid bg-light">
+                    <div class="row mt-md-3 pl-3 pr-3 ">
+                        <h2 class="text">
+                            User information-page
+                        </h2>
+                    </div>
+                    <div class="row pl-3 pr-3">
+                        <div class="col-12 border bg-light rounded-top">
+                            <h5 class="text mt-2">
+                                About user
+                            </h5>
+                        </div>
+                    </div>
+                    <div class="row pl-3 pr-3">
+                        <div class="col-12 border bg-white rounded-bottom">
+                            <table class="table bg-white mt-md-4">
+                                <thead class="bg-white">
+                                <tr>
+                                    <th scope="col">ID</th>
+                                    <th scope="col">Name</th>
+                                    <th scope="col">FirstName</th>
+                                    <th scope="col">Age</th>
+                                    <th scope="col">Email</th>
+                                    <th scope="col">Roles</th>
+                                </tr>
+                                </thead>
+                                <tbody class="bg-light">
+                                <td th:text="${user.getId()}"></td>
+                                <td th:text="${user.getUsername()}"></td>
+                                <td th:text="${user.getFirst_name()}"></td>
+                                <td th:text="${user.getAge()}"></td>
+                                <td th:text="${user.getEmail()}"></td>
+                                <td th:text="${user.getRoles()}"></td>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

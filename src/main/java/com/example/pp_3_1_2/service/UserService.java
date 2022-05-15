@@ -2,6 +2,7 @@ package com.example.pp_3_1_2.service;
 
 import com.example.pp_3_1_2.model.Role;
 import com.example.pp_3_1_2.model.User;
+import com.example.pp_3_1_2.repository.RoleRepository;
 import com.example.pp_3_1_2.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
@@ -29,6 +30,9 @@ public class UserService implements UserDetailsService {
     @Autowired
     private PasswordEncoder encoder;
 
+    @Autowired
+    private RoleRepository roleRepository;
+
     public User findById(Long id){
         return userRepository.findById(id).orElse(null);
     }
@@ -38,12 +42,26 @@ public class UserService implements UserDetailsService {
     }
 
     public User saveUser(User user) {
+        System.out.println(user+"userservice");
+        if(user.getRoles().get(0).getName().equals("ROLE_ADMIN")) {
+            user.getRoles().clear();
+            user.addRole(roleRepository.findByName("ROLE_USER"));
+            user.addRole(roleRepository.findByName("ROLE_ADMIN"));
+        } else {
+            user.getRoles().clear();
+            user.addRole(roleRepository.findByName("ROLE_USER"));
+        }
+
         if(findByName(user.getUsername())!=null) {
             return userRepository.save(user);
         }
+
         user.setPassword(encoder.encode(user.getPassword()));
-        user.setRoles(Collections.singleton(new Role(2L,"ROLE_USER")));
         return userRepository.save(user);
+    }
+
+    public User findByEmail(String email){
+        return userRepository.findByEmail(email);
     }
 
     public void deleteById(Long id) {
@@ -56,12 +74,12 @@ public class UserService implements UserDetailsService {
 
     @Override
     @Transactional
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = findByName(username);
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+        User user = findByEmail(email);
         if(user == null) {
-            throw new UsernameNotFoundException(String.format("User '%s' not found",username));
+            throw new UsernameNotFoundException(String.format("User '%s' not found",email));
         }
-        return new org.springframework.security.core.userdetails.User(user.getUsername(),user.getPassword(),
+        return new org.springframework.security.core.userdetails.User(user.getEmail(),user.getPassword(),
                 getRoles(user.getRoles()));
     }
     private Collection<?extends GrantedAuthority>getRoles(Collection<Role>roles) {
