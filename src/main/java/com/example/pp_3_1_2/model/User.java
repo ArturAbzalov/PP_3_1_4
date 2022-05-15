@@ -62,7 +62,7 @@ public class User implements UserDetails {
         this.first_name = first_name;
     }
 
-    @ManyToMany(cascade = {CascadeType.ALL,CascadeType.REMOVE})
+    @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "users_roles",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
