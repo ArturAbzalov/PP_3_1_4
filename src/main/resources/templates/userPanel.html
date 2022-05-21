@@ -13,7 +13,8 @@
 <body>
 <header>
     <nav class="navbar navbar-light bg-dark text-white ">
-        <a class="navbar-brand" th:text="${user.getEmail()}+' with roles: '+ ${user.getRoles()}"></a>
+        <ul class="navbar-nav me-auto mb-2 mb-xl-0" id="nabBarUser">
+        </ul>
         <form type="hidden" th:action="@{/logout}" method="post">
             <input class="bg-dark text-light border-0" type="submit" value="Logout"/>
         </form>
@@ -57,13 +58,7 @@
                                     <th scope="col">Roles</th>
                                 </tr>
                                 </thead>
-                                <tbody class="bg-light">
-                                <td th:text="${user.getId()}"></td>
-                                <td th:text="${user.getUsername()}"></td>
-                                <td th:text="${user.getFirst_name()}"></td>
-                                <td th:text="${user.getAge()}"></td>
-                                <td th:text="${user.getEmail()}"></td>
-                                <td th:text="${user.getRoles()}"></td>
+                                <tbody class="bg-light" id="UserInfo">
                                 </tbody>
                             </table>
                         </div>
@@ -73,5 +68,7 @@
         </div>
     </div>
 </div>
+<script crossorigin="anonymous" src="../static/js/main.js" th:src="@{../js/user.js}"
+        type="text/javascript"></script>
 </body>
 </html>

@@ -3,25 +3,21 @@ package com.example.pp_3_1_2.controller;
 import com.example.pp_3_1_2.model.User;
 import com.example.pp_3_1_2.service.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.security.Principal;
 
-
-@Controller
-@RequestMapping("/user")
-public class UserController {
+@RestController
+@RequestMapping("/api/user")
+public class RestUserController {
 
     @Autowired
     private UserServiceImpl userServiceImpl;
 
-    @GetMapping("/info")
-    public String getUser(Model model, Principal principal) {
-        User user = userServiceImpl.findByEmail(principal.getName());
-        model.addAttribute("user",user);
-        return "userPanel";
+    @GetMapping
+    public User getUserInfo(Principal principal) {
+        return userServiceImpl.findByEmail(principal.getName());
     }
 }
